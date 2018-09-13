@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -136,13 +137,15 @@ public class TaskCreatePDF extends SimpleTask
             url.addParameter( FormsPDFConstants.PARAMETER_ID_FORM_RESPONSE, formResponse.getId(  ) );
             url.addParameter( FormsPDFConstants.PARAMETER_ID_TASK, taskCreatePDFConfig.getIdTask(  ) );
 
-            FormQuestionResponse formQuestionResponse = FormQuestionResponseHome.findFormQuestionResponseByResponseQuestion( formResponse.getId( ), nIdQuestionPDF );
+            List<FormQuestionResponse> listFormQuestionResponse = FormQuestionResponseHome.findFormQuestionResponseByResponseQuestion( formResponse.getId( ), nIdQuestionPDF );
             
             //Remove those form question response
-            formQuestionResponse.getEntryResponse( )
-                                    .forEach(
+            if( !CollectionUtils.isEmpty( listFormQuestionResponse ))
+            {
+            listFormQuestionResponse.get( 0 ).getEntryResponse().forEach(
                                     response -> ResponseHome.remove( response.getIdResponse( ) )
                             );
+            }
             
             
             // Set the url as form Response value, and save it
