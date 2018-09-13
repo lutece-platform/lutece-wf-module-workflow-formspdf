@@ -38,6 +38,8 @@ import fr.paris.lutece.plugins.forms.business.FormQuestionResponse;
 import fr.paris.lutece.plugins.forms.business.FormQuestionResponseHome;
 import fr.paris.lutece.plugins.forms.business.FormResponse;
 import fr.paris.lutece.plugins.forms.business.FormResponseHome;
+import fr.paris.lutece.plugins.forms.business.Question;
+import fr.paris.lutece.plugins.forms.business.QuestionHome;
 import fr.paris.lutece.plugins.genericattributes.business.Entry;
 import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
 import fr.paris.lutece.plugins.genericattributes.business.Field;
@@ -108,11 +110,15 @@ public class TaskCreatePDF extends SimpleTask
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         TaskCreatePDFConfig taskCreatePDFConfig = _taskCreatePDFConfigService.findByPrimaryKey( getId(  ) );
         int nIdQuestionPDF = taskCreatePDFConfig.getIdQuestionUrlPDF(  );
-
-        Entry entry = EntryHome.findByPrimaryKey( nIdQuestionPDF );
+        
+        Question question  = QuestionHome.findByPrimaryKey( nIdQuestionPDF );
+        Entry entry = EntryHome.findByPrimaryKey( question.getIdEntry( ) );
+       
+        
 
         
         FormResponse formResponse = FormResponseHome.findByPrimaryKey( resourceHistory.getIdResource(  ) );
+        
 
         if ( formResponse != null )
         {
@@ -142,8 +148,8 @@ public class TaskCreatePDF extends SimpleTask
             //Remove those form question response
             if( !CollectionUtils.isEmpty( listFormQuestionResponse ))
             {
-            listFormQuestionResponse.get( 0 ).getEntryResponse().forEach(
-                                    response -> ResponseHome.remove( response.getIdResponse( ) )
+            listFormQuestionResponse.forEach(
+                                    formQuestion -> FormQuestionResponseHome.remove( formQuestion)
                             );
             }
             
@@ -160,7 +166,17 @@ public class TaskCreatePDF extends SimpleTask
             response.setStatus( 0 );
             response.setToStringValueResponse( url.toString( ) );
             
-            ResponseHome.create( response );
+            List<Response> listResponse=new ArrayList<>( );
+            listResponse.add( response );
+           
+            FormQuestionResponse formQuestionResponse=new FormQuestionResponse( );
+            formQuestionResponse.setEntryResponse( listResponse );
+            formQuestionResponse.setIdFormResponse( formResponse.getId( ) );
+            formQuestionResponse.setQuestion( question );
+            
+            
+            FormQuestionResponseHome.create( formQuestionResponse );
+            
         }
     }
 
