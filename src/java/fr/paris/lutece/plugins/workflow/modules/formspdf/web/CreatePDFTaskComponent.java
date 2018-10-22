@@ -192,7 +192,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
                 else
                 {
                     ReferenceItem referenceItem = new ReferenceItem(  );
-                    referenceItem.setCode( String.valueOf( question.getEntry().getIdEntry(  ) ) );
+                    referenceItem.setCode( String.valueOf( question.getId() ) );
                     referenceItem.setName( question.getEntry().getTitle(  ) );
                     referenceList.add( referenceItem );
                 }
