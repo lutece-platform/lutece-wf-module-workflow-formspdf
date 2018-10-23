@@ -125,7 +125,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
         }
 
         model.put( FormsPDFConstants.MARK_FORMS_LIST, FormHome.getFormsReferenceList( ) );
-        model.put( FormsPDFConstants.MARK_LIST_ENTRIES_URL, getListEntriesUrl( nIdForms, request ) );
+        model.put( FormsPDFConstants.MARK_LIST_ENTRIES_URL, getListQuestionsUrl( nIdForms, request ) );
         model.put( FormsPDFConstants.MARK_LIST_CONFIG_PDF, getListConfigPDF( nIdForms, locale ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_CREATE_PDF, locale, model );
@@ -157,7 +157,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
      * @param request request
      * @return ReferenceList entries list
      */
-    private static ReferenceList getListEntriesUrl( int nIdForms, HttpServletRequest request )
+    private static ReferenceList getListQuestionsUrl( int nIdForms, HttpServletRequest request )
     {
         if ( nIdForms != -1 )
         {
@@ -171,31 +171,10 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
                     continue;
                 }
 
-                if ( question.getEntry().getEntryType(  ).getGroup(  ) )
-                {
-                    if ( question.getEntry().getChildren(  ) != null )
-                    {
-                        for ( Entry child : question.getEntry().getChildren(  ) )
-                        {
-                            if ( child.getEntryType(  ).getComment(  ) )
-                            {
-                                continue;
-                            }
-
-                            ReferenceItem referenceItem = new ReferenceItem(  );
-                            referenceItem.setCode( String.valueOf( child.getIdEntry(  ) ) );
-                            referenceItem.setName( child.getTitle(  ) );
-                            referenceList.add( referenceItem );
-                        }
-                    }
-                }
-                else
-                {
-                    ReferenceItem referenceItem = new ReferenceItem(  );
-                    referenceItem.setCode( String.valueOf( question.getId() ) );
-                    referenceItem.setName( question.getEntry().getTitle(  ) );
-                    referenceList.add( referenceItem );
-                }
+                ReferenceItem referenceItem = new ReferenceItem(  );
+                referenceItem.setCode( String.valueOf( question.getId() ) );
+                referenceItem.setName( question.getTitle( ) );
+                referenceList.add( referenceItem );
             }
 
             return referenceList;
