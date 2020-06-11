@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.formspdf.web;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.plugins.forms.business.FormHome;
 import fr.paris.lutece.plugins.forms.business.Question;
@@ -41,7 +52,6 @@ import fr.paris.lutece.plugins.forms.modules.documentproducer.business.producerc
 import fr.paris.lutece.plugins.forms.modules.documentproducer.business.producerconfig.ConfigProducerHome;
 import fr.paris.lutece.plugins.forms.modules.documentproducer.business.producerconfig.DocumentType;
 import fr.paris.lutece.plugins.forms.modules.documentproducer.service.FormsDocumentProducerPlugin;
-import fr.paris.lutece.plugins.genericattributes.business.Entry;
 import fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfig;
 import fr.paris.lutece.plugins.workflow.modules.formspdf.utils.FormsPDFConstants;
 import fr.paris.lutece.plugins.workflow.utils.WorkflowUtils;
@@ -55,20 +65,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import javax.servlet.http.HttpServletRequest;
-
 
 /**
  *
@@ -97,15 +93,14 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
     @Override
     public String getDisplayConfigForm( HttpServletRequest request, Locale locale, ITask task )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         String strIdTask = request.getParameter( FormsPDFConstants.PARAMETER_ID_TASK );
 
         int nIdForms;
 
         if ( StringUtils.isNotBlank( request.getParameter( FormsPDFConstants.PARAMETER_ID_FORM ) ) )
         {
-            nIdForms = Integer.parseInt( request.getParameter( 
-                        FormsPDFConstants.PARAMETER_ID_FORM ) );
+            nIdForms = Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_FORM ) );
         }
         else
         {
@@ -114,13 +109,12 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
 
         if ( StringUtils.isNotBlank( strIdTask ) )
         {
-            TaskCreatePDFConfig taskCreatePDFConfig = _taskCreatePDFConfigService.findByPrimaryKey( Integer.parseInt( 
-                        strIdTask ) );
+            TaskCreatePDFConfig taskCreatePDFConfig = _taskCreatePDFConfigService.findByPrimaryKey( Integer.parseInt( strIdTask ) );
 
             if ( taskCreatePDFConfig != null )
             {
                 model.put( MARKER_TASK_FORMSPDF_CONFIG, taskCreatePDFConfig );
-                nIdForms = taskCreatePDFConfig.getIdForm(  );
+                nIdForms = taskCreatePDFConfig.getIdForm( );
             }
         }
 
@@ -130,7 +124,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_CREATE_PDF, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
@@ -153,8 +147,11 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
 
     /**
      * Method to get forms entries list
-     * @param nIdForms id forms
-     * @param request request
+     * 
+     * @param nIdForms
+     *            id forms
+     * @param request
+     *            request
      * @return ReferenceList entries list
      */
     private static ReferenceList getListQuestionsUrl( int nIdForms, HttpServletRequest request )
@@ -162,17 +159,17 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
         if ( nIdForms != -1 )
         {
             List<Question> listQuestion = QuestionHome.getListQuestionByIdForm( nIdForms );
-            ReferenceList referenceList = new ReferenceList(  );
+            ReferenceList referenceList = new ReferenceList( );
 
             for ( Question question : listQuestion )
             {
-                if ( question.getEntry().getEntryType(  ).getComment(  ) )
+                if ( question.getEntry( ).getEntryType( ).getComment( ) )
                 {
                     continue;
                 }
 
-                ReferenceItem referenceItem = new ReferenceItem(  );
-                referenceItem.setCode( String.valueOf( question.getId() ) );
+                ReferenceItem referenceItem = new ReferenceItem( );
+                referenceItem.setCode( String.valueOf( question.getId( ) ) );
                 referenceItem.setName( question.getTitle( ) );
                 referenceList.add( referenceItem );
             }
@@ -187,29 +184,29 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
 
     /**
      * Method to get list of config, by id forms
-     * @param nIdForms id forms
-     * @param locale the locale
+     * 
+     * @param nIdForms
+     *            id forms
+     * @param locale
+     *            the locale
      * @return ReferenceList list of config
      */
     private static ReferenceList getListConfigPDF( int nIdForms, Locale locale )
     {
         Plugin pluginFormsPDFProducer = PluginService.getPlugin( FormsDocumentProducerPlugin.PLUGIN_NAME );
-        List<ConfigProducer> listConfigProducer = ConfigProducerHome.loadListProducerConfig(pluginFormsPDFProducer, nIdForms );
+        List<ConfigProducer> listConfigProducer = ConfigProducerHome.loadListProducerConfig( pluginFormsPDFProducer, nIdForms );
 
-        //Keep only the type PDF
-        listConfigProducer.stream()
-                .filter( config -> config.getType().equals( DocumentType.PDF.toString()))
-                .collect( Collectors.toList( ) );
-        
-        ReferenceList referenceList = new ReferenceList(  );
-        referenceList.addItem( WorkflowUtils.CONSTANT_ID_NULL,
-            I18nService.getLocalizedString( PROPERTY_LABEL_DEFAULT, locale ) );
+        // Keep only the type PDF
+        listConfigProducer.stream( ).filter( config -> config.getType( ).equals( DocumentType.PDF.toString( ) ) ).collect( Collectors.toList( ) );
+
+        ReferenceList referenceList = new ReferenceList( );
+        referenceList.addItem( WorkflowUtils.CONSTANT_ID_NULL, I18nService.getLocalizedString( PROPERTY_LABEL_DEFAULT, locale ) );
 
         for ( ConfigProducer configProducer : listConfigProducer )
         {
-            ReferenceItem referenceItem = new ReferenceItem(  );
-            referenceItem.setCode( String.valueOf( configProducer.getIdProducerConfig(  ) ) );
-            referenceItem.setName( configProducer.getName(  ) );
+            ReferenceItem referenceItem = new ReferenceItem( );
+            referenceItem.setCode( String.valueOf( configProducer.getIdProducerConfig( ) ) );
+            referenceItem.setName( configProducer.getName( ) );
             referenceList.add( referenceItem );
         }
 

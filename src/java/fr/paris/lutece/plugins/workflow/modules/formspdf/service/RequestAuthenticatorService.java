@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.signrequest.AbstractPrivateKeyAuthenticator;
 import fr.paris.lutece.util.signrequest.RequestAuthenticator;
 
-
 /**
  * RequestAuthenticatorService
  *
@@ -50,14 +49,14 @@ public final class RequestAuthenticatorService
     /**
      * Private constructor
      */
-    private RequestAuthenticatorService(  )
+    private RequestAuthenticatorService( )
     {
     }
 
     /**
      * @return RequestAuthenticator
      */
-    public static RequestAuthenticator getRequestAuthenticatorForWS(  )
+    public static RequestAuthenticator getRequestAuthenticatorForWS( )
     {
         return (RequestAuthenticator) SpringContextService.getBean( BEAN_REQUESTAUTHENTICATOR_FOR_WS );
     }
@@ -65,7 +64,7 @@ public final class RequestAuthenticatorService
     /**
      * @return AbstractPrivateKeyAuthenticator
      */
-    public static AbstractPrivateKeyAuthenticator getRequestAuthenticatorForUrl(  )
+    public static AbstractPrivateKeyAuthenticator getRequestAuthenticatorForUrl( )
     {
         return (AbstractPrivateKeyAuthenticator) SpringContextService.getBean( BEAN_REQUESTAUTHENTICATOR_FOR_URL );
     }
