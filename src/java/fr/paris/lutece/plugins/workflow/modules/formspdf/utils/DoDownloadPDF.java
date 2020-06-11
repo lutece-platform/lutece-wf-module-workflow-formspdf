@@ -78,50 +78,44 @@ public class DoDownloadPDF
         String strIdConfig = Integer.toString( taskCreatePDFConfig.getIdConfig( ) );
         int nIdFormResponse = Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_FORM_RESPONSE ) );
 
-        if ( RequestAuthenticatorService.getRequestAuthenticatorForUrl( ).isRequestAuthenticated( request ) && StringUtils.isNotBlank( strIdConfig ) )
+        if ( !RequestAuthenticatorService.getRequestAuthenticatorForUrl( ).isRequestAuthenticated( request ) || StringUtils.isBlank( strIdConfig ) )
         {
-            ConfigProducerService manageConfigProducerService = null;
+            return;
+        }
+        
+        ConfigProducerService manageConfigProducerService = null;
 
-            try
+        try
+        {
+            manageConfigProducerService = SpringContextService.getBean( "forms-documentproducer.manageConfigProducer" );
+        }
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+        }
+
+        if ( manageConfigProducerService != null )
+        {
+            Plugin plugin = PluginService.getPlugin( FormsDocumentProducerPlugin.PLUGIN_NAME );
+            int nIdConfig = Integer.parseInt( strIdConfig );
+            IConfigProducer config;
+
+            if ( ( nIdConfig == -1 ) || ( nIdConfig == 0 ) )
             {
-                manageConfigProducerService = SpringContextService.getBean( "forms-documentproducer.manageConfigProducer" );
+                config = manageConfigProducerService.loadDefaultConfig( plugin, nIdConfig, DocumentType.PDF );
             }
-            catch( BeanDefinitionStoreException e )
+            else
             {
-                AppLogService.error( e.getMessage( ), e );
-            }
-            catch( NoSuchBeanDefinitionException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
-            catch( CannotLoadBeanClassException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
+                config = manageConfigProducerService.loadConfig( plugin, nIdConfig );
             }
 
-            if ( manageConfigProducerService != null )
+            if ( config == null )
             {
-                Plugin plugin = PluginService.getPlugin( FormsDocumentProducerPlugin.PLUGIN_NAME );
-                int nIdConfig = Integer.parseInt( strIdConfig );
-                IConfigProducer config;
-
-                if ( ( nIdConfig == -1 ) || ( nIdConfig == 0 ) )
-                {
-                    config = manageConfigProducerService.loadDefaultConfig( plugin, nIdConfig, DocumentType.PDF );
-                }
-                else
-                {
-                    config = manageConfigProducerService.loadConfig( plugin, nIdConfig );
-                }
-
-                if ( config == null )
-                {
-                    config = new DefaultConfigProducer( );
-                }
-
-                PDFUtils.doDownloadPDF( request, response, plugin, config,
-                        manageConfigProducerService.loadListConfigQuestion( plugin, Integer.parseInt( strIdConfig ) ), request.getLocale( ), nIdFormResponse );
+                config = new DefaultConfigProducer( );
             }
+
+            PDFUtils.doDownloadPDF( request, response, plugin, config,
+                    manageConfigProducerService.loadListConfigQuestion( plugin, Integer.parseInt( strIdConfig ) ), request.getLocale( ), nIdFormResponse );
         }
     }
 }

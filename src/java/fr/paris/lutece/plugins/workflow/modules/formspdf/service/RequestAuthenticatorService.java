@@ -58,7 +58,7 @@ public final class RequestAuthenticatorService
      */
     public static RequestAuthenticator getRequestAuthenticatorForWS( )
     {
-        return (RequestAuthenticator) SpringContextService.getBean( BEAN_REQUESTAUTHENTICATOR_FOR_WS );
+        return SpringContextService.getBean( BEAN_REQUESTAUTHENTICATOR_FOR_WS );
     }
 
     /**
@@ -66,6 +66,6 @@ public final class RequestAuthenticatorService
      */
     public static AbstractPrivateKeyAuthenticator getRequestAuthenticatorForUrl( )
     {
-        return (AbstractPrivateKeyAuthenticator) SpringContextService.getBean( BEAN_REQUESTAUTHENTICATOR_FOR_URL );
+        return SpringContextService.getBean( BEAN_REQUESTAUTHENTICATOR_FOR_URL );
     }
 }

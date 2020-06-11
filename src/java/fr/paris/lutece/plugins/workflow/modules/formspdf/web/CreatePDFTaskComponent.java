@@ -93,7 +93,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
     @Override
     public String getDisplayConfigForm( HttpServletRequest request, Locale locale, ITask task )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         String strIdTask = request.getParameter( FormsPDFConstants.PARAMETER_ID_TASK );
 
         int nIdForms;
@@ -119,7 +119,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
         }
 
         model.put( FormsPDFConstants.MARK_FORMS_LIST, FormHome.getFormsReferenceList( ) );
-        model.put( FormsPDFConstants.MARK_LIST_ENTRIES_URL, getListQuestionsUrl( nIdForms, request ) );
+        model.put( FormsPDFConstants.MARK_LIST_ENTRIES_URL, getListQuestionsUrl( nIdForms ) );
         model.put( FormsPDFConstants.MARK_LIST_CONFIG_PDF, getListConfigPDF( nIdForms, locale ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TASK_CREATE_PDF, locale, model );
@@ -150,11 +150,9 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
      * 
      * @param nIdForms
      *            id forms
-     * @param request
-     *            request
      * @return ReferenceList entries list
      */
-    private static ReferenceList getListQuestionsUrl( int nIdForms, HttpServletRequest request )
+    private static ReferenceList getListQuestionsUrl( int nIdForms )
     {
         if ( nIdForms != -1 )
         {
@@ -163,7 +161,7 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
 
             for ( Question question : listQuestion )
             {
-                if ( question.getEntry( ).getEntryType( ).getComment( ) )
+                if ( Boolean.TRUE.equals( question.getEntry( ).getEntryType( ).getComment( ) ) )
                 {
                     continue;
                 }

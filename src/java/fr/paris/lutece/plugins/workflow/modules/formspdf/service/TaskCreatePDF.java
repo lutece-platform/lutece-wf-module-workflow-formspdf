@@ -62,7 +62,6 @@ import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.SimpleTask;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -140,7 +139,7 @@ public class TaskCreatePDF extends SimpleTask
             // Remove those form question response
             if ( !CollectionUtils.isEmpty( listFormQuestionResponse ) )
             {
-                listFormQuestionResponse.forEach( formQuestion -> FormQuestionResponseHome.remove( formQuestion ) );
+                listFormQuestionResponse.forEach( FormQuestionResponseHome::remove );
             }
 
             // Set the url as form Response value, and save it
