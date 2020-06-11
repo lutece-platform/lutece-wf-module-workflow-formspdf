@@ -121,7 +121,7 @@ public class TaskCreatePDF extends SimpleTask
 
             String strSignature = RequestAuthenticatorService.getRequestAuthenticatorForUrl( ).buildSignature( listElements, strTime );
 
-            StringBuilder sbUrl = new StringBuilder( getBaseUrl( request ) );
+            StringBuilder sbUrl = new StringBuilder( getBaseUrl( ) );
 
             if ( !sbUrl.toString( ).endsWith( FormsPDFConstants.SLASH ) )
             {
@@ -170,29 +170,15 @@ public class TaskCreatePDF extends SimpleTask
 
     /**
      * Get the base url
-     * 
-     * @param request
-     *            the HTTP request
      * @return the base url
      */
-    private String getBaseUrl( HttpServletRequest request )
+    private String getBaseUrl( )
     {
-        String strBaseUrl = StringUtils.EMPTY;
-
-        if ( request != null )
+        String strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_PROD_URL );
+        if ( StringUtils.isBlank( strBaseUrl ) )
         {
-            strBaseUrl = AppPathService.getBaseUrl( request );
+            strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_BASE_URL ); 
         }
-        else
-        {
-            strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_BASE_URL );
-
-            if ( StringUtils.isBlank( strBaseUrl ) )
-            {
-                strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_PROD_URL );
-            }
-        }
-
         return strBaseUrl;
     }
 }
