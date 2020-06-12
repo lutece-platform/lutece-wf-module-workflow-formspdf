@@ -169,6 +169,7 @@ public class TaskCreatePDF extends SimpleTask
 
     /**
      * Get the base url
+     * 
      * @return the base url
      */
     private String getBaseUrl( )
@@ -176,7 +177,7 @@ public class TaskCreatePDF extends SimpleTask
         String strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_PROD_URL );
         if ( StringUtils.isBlank( strBaseUrl ) )
         {
-            strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_BASE_URL ); 
+            strBaseUrl = AppPropertiesService.getProperty( FormsPDFConstants.PROPERTY_LUTECE_BASE_URL );
         }
         return strBaseUrl;
     }

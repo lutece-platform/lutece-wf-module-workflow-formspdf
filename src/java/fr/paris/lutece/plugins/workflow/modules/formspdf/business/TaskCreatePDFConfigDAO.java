@@ -74,7 +74,7 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, FormsPDFPlugin.getPlugin( ) ) )
         {
             daoUtil.setInt( 1, nIdTask );
-            daoUtil.executeQuery( );
+            daoUtil.executeUpdate( );
         }
     }
 
@@ -89,7 +89,7 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
         {
             daoUtil.setInt( 1, nIdTask );
             daoUtil.executeQuery( );
-    
+
             if ( daoUtil.next( ) )
             {
                 taskCreatePDFConfig = new TaskCreatePDFConfig( );
@@ -115,6 +115,6 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
             daoUtil.setInt( 3, taskCreatePDFConfig.getIdConfig( ) );
             daoUtil.setInt( 4, taskCreatePDFConfig.getIdTask( ) );
             daoUtil.executeUpdate( );
-            }
+        }
     }
 }
