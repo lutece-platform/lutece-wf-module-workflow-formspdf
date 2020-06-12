@@ -1,56 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<!-- Transaction Manager -->
-	<bean id="workflow-formspdf.transactionManager" class="fr.paris.lutece.portal.service.database.DAOUtilTransactionManager"
-		p:pluginName="workflow-formspdf" />
-	
+    <!-- Transaction Manager -->
+    <bean id="workflow-formspdf.transactionManager"
+        class="fr.paris.lutece.portal.service.database.DAOUtilTransactionManager"
+        p:pluginName="workflow-formspdf" />
+
     <!-- DAO -->
-    <bean id="workflow-formspdf.taskCreatePDFConfigDAO" class="fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfigDAO" />
-    
-	<!-- Task -->
-	<bean id="workflow-formspdf.taskTypeFormsPDF" class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
-		p:key="taskCreatePDF"
-		p:titleI18nKey="module.workflow.formspdf.task_create_pdf_title"
-		p:beanName="workflow-formspdf.taskCreatePDF"
-		p:configBeanName="workflow-formspdf.taskCreatePDFConfig"
-		p:configRequired="true"
-		p:taskForAutomaticAction="true" />
-	<bean id="workflow-formspdf.taskCreatePDF" class="fr.paris.lutece.plugins.workflow.modules.formspdf.service.TaskCreatePDF" scope="prototype" />
-	<bean id="workflow-formspdf.taskCreatePDFConfig" class="fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfig" scope="prototype" />
-	<bean id="workflow-formspdf.formspdfTaskComponent" class="fr.paris.lutece.plugins.workflow.modules.formspdf.web.CreatePDFTaskComponent"
-		p:taskType-ref="workflow-formspdf.taskTypeFormsPDF"
-		p:taskConfigService-ref="workflow-formspdf.taskCreatePDFConfigService" />
-	
-	<!-- Services -->
-	<bean id="workflow-formspdf.taskCreatePDFConfigService" class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
-		p:taskConfigDAO-ref="workflow-formspdf.taskCreatePDFConfigDAO" />
-	<bean id="workflow-formspdf.hashService" class="fr.paris.lutece.util.signrequest.security.Sha1HashService" />
-	<bean id="workflow-formspdf.requestAuthenticatorForWS" class="fr.paris.lutece.util.signrequest.HeaderHashAuthenticator" >
-        <property name="hashService" ref="workflow-formspdf.hashService" />
-        <property name="signatureElements" > 
+    <bean id="workflow-formspdf.taskCreatePDFConfigDAO"
+        class="fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfigDAO" />
+
+    <!-- Task -->
+    <bean id="workflow-formspdf.taskTypeFormsPDF"
+        class="fr.paris.lutece.plugins.workflowcore.business.task.TaskType"
+        p:key="taskCreatePDF"
+        p:titleI18nKey="module.workflow.formspdf.task_create_pdf_title"
+        p:beanName="workflow-formspdf.taskCreatePDF"
+        p:configBeanName="workflow-formspdf.taskCreatePDFConfig"
+        p:configRequired="true" p:taskForAutomaticAction="true" />
+    <bean id="workflow-formspdf.taskCreatePDF"
+        class="fr.paris.lutece.plugins.workflow.modules.formspdf.service.TaskCreatePDF"
+        scope="prototype" />
+    <bean id="workflow-formspdf.taskCreatePDFConfig"
+        class="fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfig"
+        scope="prototype" />
+    <bean id="workflow-formspdf.formspdfTaskComponent"
+        class="fr.paris.lutece.plugins.workflow.modules.formspdf.web.CreatePDFTaskComponent"
+        p:taskType-ref="workflow-formspdf.taskTypeFormsPDF"
+        p:taskConfigService-ref="workflow-formspdf.taskCreatePDFConfigService" />
+
+    <!-- Services -->
+    <bean id="workflow-formspdf.taskCreatePDFConfigService"
+        class="fr.paris.lutece.plugins.workflowcore.service.config.TaskConfigService"
+        p:taskConfigDAO-ref="workflow-formspdf.taskCreatePDFConfigDAO" />
+    <bean id="workflow-formspdf.hashService"
+        class="fr.paris.lutece.util.signrequest.security.Sha1HashService" />
+    <bean id="workflow-formspdf.requestAuthenticatorForWS"
+        class="fr.paris.lutece.util.signrequest.HeaderHashAuthenticator">
+        <property name="hashService"
+            ref="workflow-formspdf.hashService" />
+        <property name="signatureElements">
             <list>
-            	<value>id_form_response</value>
+                <value>id_form_response</value>
             </list>
         </property>
         <property name="privateKey">
             <value>change me</value>
         </property>
     </bean>
-    <bean id="workflow-formspdf.requestAuthenticatorForUrl" class="fr.paris.lutece.util.signrequest.RequestHashAuthenticator" >
-        <property name="hashService" ref="workflow-formspdf.hashService" />
-        <property name="signatureElements" > 
+    <bean id="workflow-formspdf.requestAuthenticatorForUrl"
+        class="fr.paris.lutece.util.signrequest.RequestHashAuthenticator">
+        <property name="hashService"
+            ref="workflow-formspdf.hashService" />
+        <property name="signatureElements">
             <list>
-            	<value>id_form_response</value>
+                <value>id_form_response</value>
             </list>
         </property>
         <property name="privateKey">
