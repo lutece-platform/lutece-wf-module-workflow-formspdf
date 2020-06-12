@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.plugins.workflowcore.business.config.TaskConfig;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-
 /**
  * TaskCreatePDFConfig
  *
@@ -56,13 +55,14 @@ public class TaskCreatePDFConfig extends TaskConfig
     /**
      * @return the IdForm
      */
-    public int getIdForm(  )
+    public int getIdForm( )
     {
         return _nIdForm;
     }
 
     /**
-     * @param nIdForm the IdForms to set
+     * @param nIdForm
+     *            the IdForms to set
      */
     public void setIdForm( int nIdForm )
     {
@@ -72,13 +72,14 @@ public class TaskCreatePDFConfig extends TaskConfig
     /**
      * @return the _nIdConfig
      */
-    public int getIdConfig(  )
+    public int getIdConfig( )
     {
         return _nIdConfig;
     }
 
     /**
-     * @param nIdConfig the _nIdConfig to set
+     * @param nIdConfig
+     *            the _nIdConfig to set
      */
     public void setIdConfig( int nIdConfig )
     {
@@ -88,13 +89,14 @@ public class TaskCreatePDFConfig extends TaskConfig
     /**
      * @return the _nIdQuestionUrlPDF
      */
-    public int getIdQuestionUrlPDF(  )
+    public int getIdQuestionUrlPDF( )
     {
         return _nIdQuestionUrlPDF;
     }
 
     /**
-     * @param nIdQuestionUrlPDF the _nIdQuestionUrlPDF to set
+     * @param nIdQuestionUrlPDF
+     *            the _nIdQuestionUrlPDF to set
      */
     public void setIdQuestionUrlPDF( int nIdQuestionUrlPDF )
     {

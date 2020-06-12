@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.workflow.modules.formspdf.service.FormsPDFPlugin;
 import fr.paris.lutece.plugins.workflowcore.business.config.ITaskConfigDAO;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-
 /**
  *
  * TaskCreatePDFConfigDAO
@@ -56,13 +55,14 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
     @Override
     public void insert( TaskCreatePDFConfig taskCreatePDFConfig )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, FormsPDFPlugin.getPlugin(  ) );
-        daoUtil.setInt( 1, taskCreatePDFConfig.getIdTask(  ) );
-        daoUtil.setInt( 2, taskCreatePDFConfig.getIdForm(  ) );
-        daoUtil.setInt( 3, taskCreatePDFConfig.getIdQuestionUrlPDF(  ) );
-        daoUtil.setInt( 4, taskCreatePDFConfig.getIdConfig(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, FormsPDFPlugin.getPlugin( ) ) )
+        {
+            daoUtil.setInt( 1, taskCreatePDFConfig.getIdTask( ) );
+            daoUtil.setInt( 2, taskCreatePDFConfig.getIdForm( ) );
+            daoUtil.setInt( 3, taskCreatePDFConfig.getIdQuestionUrlPDF( ) );
+            daoUtil.setInt( 4, taskCreatePDFConfig.getIdConfig( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -71,10 +71,11 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
     @Override
     public void delete( int nIdTask )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, FormsPDFPlugin.getPlugin(  ) );
-        daoUtil.setInt( 1, nIdTask );
-        daoUtil.executeQuery(  );
-        daoUtil.free(  );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, FormsPDFPlugin.getPlugin( ) ) )
+        {
+            daoUtil.setInt( 1, nIdTask );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -83,27 +84,22 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
     @Override
     public TaskCreatePDFConfig load( int nIdTask )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, FormsPDFPlugin.getPlugin(  ) );
-        daoUtil.setInt( 1, nIdTask );
-        daoUtil.executeQuery(  );
-
-        if ( daoUtil.next(  ) )
+        TaskCreatePDFConfig taskCreatePDFConfig = null;
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, FormsPDFPlugin.getPlugin( ) ) )
         {
-            TaskCreatePDFConfig taskCreatePDFConfig = new TaskCreatePDFConfig(  );
-            taskCreatePDFConfig.setIdTask( daoUtil.getInt( 1 ) );
-            taskCreatePDFConfig.setIdForm( daoUtil.getInt( 2 ) );
-            taskCreatePDFConfig.setIdQuestionUrlPDF( daoUtil.getInt( 3 ) );
-            taskCreatePDFConfig.setIdConfig( daoUtil.getInt( 4 ) );
-            daoUtil.free(  );
+            daoUtil.setInt( 1, nIdTask );
+            daoUtil.executeQuery( );
 
-            return taskCreatePDFConfig;
+            if ( daoUtil.next( ) )
+            {
+                taskCreatePDFConfig = new TaskCreatePDFConfig( );
+                taskCreatePDFConfig.setIdTask( daoUtil.getInt( 1 ) );
+                taskCreatePDFConfig.setIdForm( daoUtil.getInt( 2 ) );
+                taskCreatePDFConfig.setIdQuestionUrlPDF( daoUtil.getInt( 3 ) );
+                taskCreatePDFConfig.setIdConfig( daoUtil.getInt( 4 ) );
+            }
         }
-        else
-        {
-            daoUtil.free(  );
-
-            return null;
-        }
+        return taskCreatePDFConfig;
     }
 
     /**
@@ -112,12 +108,13 @@ public class TaskCreatePDFConfigDAO implements ITaskConfigDAO<TaskCreatePDFConfi
     @Override
     public void store( TaskCreatePDFConfig taskCreatePDFConfig )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, FormsPDFPlugin.getPlugin(  ) );
-        daoUtil.setInt( 1, taskCreatePDFConfig.getIdQuestionUrlPDF(  ) );
-        daoUtil.setInt( 2, taskCreatePDFConfig.getIdForm(  ) );
-        daoUtil.setInt( 3, taskCreatePDFConfig.getIdConfig(  ) );
-        daoUtil.setInt( 4, taskCreatePDFConfig.getIdTask(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, FormsPDFPlugin.getPlugin( ) ) )
+        {
+            daoUtil.setInt( 1, taskCreatePDFConfig.getIdQuestionUrlPDF( ) );
+            daoUtil.setInt( 2, taskCreatePDFConfig.getIdForm( ) );
+            daoUtil.setInt( 3, taskCreatePDFConfig.getIdConfig( ) );
+            daoUtil.setInt( 4, taskCreatePDFConfig.getIdTask( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 }
