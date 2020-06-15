@@ -47,7 +47,7 @@ public final class FormsPDFConstants
     public static final String PARAMETER_ID_FORM_RESPONSE = "id_form_response";
     public static final String PARAM_ITEM_KEY = "item_key";
     public static final String PROPERTY_WEBAPP_WORKFLOW_FORMSPDF_URL = "workflow.formspdf.url.download.pdf";
-    public static final String URL_DOWNLOAD_PDF = "jsp/site/plugins/workflow/modules/formspdf/DoDownloadPDF.jsp";
+    public static final String URL_DOWNLOAD_PDF = "servlet/plugins/formspdf/downloadpdf";
     public static final String PARAMETER_ID_TASK = "id_task";
     public static final String MARK_FORMS_LIST = "list_forms";
     public static final String MARK_LIST_ENTRIES_URL = "list_question_url";
