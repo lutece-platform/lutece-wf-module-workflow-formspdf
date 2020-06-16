@@ -31,8 +31,12 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.formspdf.utils;
+package fr.paris.lutece.plugins.workflow.modules.formspdf.web;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,6 +53,7 @@ import fr.paris.lutece.plugins.forms.modules.documentproducer.service.FormsDocum
 import fr.paris.lutece.plugins.forms.modules.documentproducer.utils.PDFUtils;
 import fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfig;
 import fr.paris.lutece.plugins.workflow.modules.formspdf.service.RequestAuthenticatorService;
+import fr.paris.lutece.plugins.workflow.modules.formspdf.utils.FormsPDFConstants;
 import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -60,8 +65,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
  * DoDownloadPDF
  *
  */
-public class DoDownloadPDF
+public class DoDownloadPDF extends HttpServlet
 {
+    private static final long serialVersionUID = 1523600277096101876L;
+
     /**
      * Do download pdf to Front User
      * 
@@ -70,14 +77,26 @@ public class DoDownloadPDF
      * @param response
      *            response
      */
-    public void doDownloadFile( HttpServletRequest request, HttpServletResponse response )
+    private void doDownloadFile( HttpServletRequest request, HttpServletResponse response )
     {
         ITaskConfigService taskCreatePDFConfigService = SpringContextService.getBean( FormsPDFConstants.BEAN_CREATE_PDF_CONFIG_SERVICE );
-        TaskCreatePDFConfig taskCreatePDFConfig = taskCreatePDFConfigService
-                .findByPrimaryKey( Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_TASK ) ) );
-        String strIdConfig = Integer.toString( taskCreatePDFConfig.getIdConfig( ) );
-        int nIdFormResponse = Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_FORM_RESPONSE ) );
-
+        int nIdConfig;
+        int nIdFormResponse;
+        String strIdConfig;
+        try 
+        {
+            TaskCreatePDFConfig taskCreatePDFConfig = taskCreatePDFConfigService
+                    .findByPrimaryKey( Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_TASK ) ) );
+            strIdConfig = Integer.toString( taskCreatePDFConfig.getIdConfig( ) );
+            nIdFormResponse = Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_FORM_RESPONSE ) );
+            nIdConfig = Integer.parseInt( strIdConfig );
+        }
+        catch ( NumberFormatException e )
+        {
+            AppLogService.error( "Error parsing request parameter", e );
+            return;
+        }
+        
         if ( !RequestAuthenticatorService.getRequestAuthenticatorForUrl( ).isRequestAuthenticated( request ) || StringUtils.isBlank( strIdConfig ) )
         {
             return;
@@ -97,7 +116,6 @@ public class DoDownloadPDF
         if ( manageConfigProducerService != null )
         {
             Plugin plugin = PluginService.getPlugin( FormsDocumentProducerPlugin.PLUGIN_NAME );
-            int nIdConfig = Integer.parseInt( strIdConfig );
             IConfigProducer config;
 
             if ( ( nIdConfig == -1 ) || ( nIdConfig == 0 ) )
@@ -115,7 +133,43 @@ public class DoDownloadPDF
             }
 
             PDFUtils.doDownloadPDF( request, response, plugin, config,
-                    manageConfigProducerService.loadListConfigQuestion( plugin, Integer.parseInt( strIdConfig ) ), request.getLocale( ), nIdFormResponse );
+                    manageConfigProducerService.loadListConfigQuestion( plugin, nIdConfig ), request.getLocale( ), nIdFormResponse );
         }
+    }
+    
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
+     */
+    @Override
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+    {
+        doDownloadFile( request, response );
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
+     */
+    @Override
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+    {
+        doDownloadFile( request, response );
     }
 }

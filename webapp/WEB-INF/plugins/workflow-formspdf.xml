@@ -24,5 +24,12 @@
     <!-- if the plugin must have a connection pool with parameter : 1 - yes, 
         0 - no -->
     <db-pool-required>1</db-pool-required>
-
+    
+    <servlets>
+        <servlet>
+            <servlet-name>downloadpdf</servlet-name>
+            <url-pattern>/servlet/plugins/formspdf/downloadpdf</url-pattern>
+            <servlet-class>fr.paris.lutece.plugins.workflow.modules.formspdf.web.DoDownloadPDF</servlet-class>
+        </servlet>
+    </servlets>
 </plug-in>

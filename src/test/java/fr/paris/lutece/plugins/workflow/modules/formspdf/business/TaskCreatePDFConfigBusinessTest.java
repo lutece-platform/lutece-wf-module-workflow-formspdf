@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.plugins.workflow.modules.formspdf.business;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import fr.paris.lutece.plugins.workflow.modules.formspdf.utils.FormsPDFConstants;
 import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
