@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.workflow.modules.formspdf.utils;
+package fr.paris.lutece.plugins.workflow.modules.formspdf.web;
 
 import java.io.IOException;
 
@@ -53,6 +53,7 @@ import fr.paris.lutece.plugins.forms.modules.documentproducer.service.FormsDocum
 import fr.paris.lutece.plugins.forms.modules.documentproducer.utils.PDFUtils;
 import fr.paris.lutece.plugins.workflow.modules.formspdf.business.TaskCreatePDFConfig;
 import fr.paris.lutece.plugins.workflow.modules.formspdf.service.RequestAuthenticatorService;
+import fr.paris.lutece.plugins.workflow.modules.formspdf.utils.FormsPDFConstants;
 import fr.paris.lutece.plugins.workflowcore.service.config.ITaskConfigService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;

@@ -27,9 +27,9 @@
     
     <servlets>
         <servlet>
-            <servlet-name>myServlet1</servlet-name>
+            <servlet-name>downloadpdf</servlet-name>
             <url-pattern>/servlet/plugins/formspdf/downloadpdf</url-pattern>
-            <servlet-class>fr.paris.lutece.plugins.workflow.modules.formspdf.utils.DoDownloadPDF</servlet-class>
+            <servlet-class>fr.paris.lutece.plugins.workflow.modules.formspdf.web.DoDownloadPDF</servlet-class>
         </servlet>
     </servlets>
 </plug-in>
