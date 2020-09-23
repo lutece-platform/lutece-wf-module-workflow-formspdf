@@ -150,7 +150,7 @@ public class TaskCreatePDF extends SimpleTask
             response.setFile( null );
             response.setIsImage( false );
             response.setIterationNumber( 0 );
-            response.setResponseValue( url.getUrl( ) );
+            response.setResponseValue( url.getUrlWithEntity( ) );
             response.setStatus( 0 );
             response.setToStringValueResponse( url.toString( ) );
 
