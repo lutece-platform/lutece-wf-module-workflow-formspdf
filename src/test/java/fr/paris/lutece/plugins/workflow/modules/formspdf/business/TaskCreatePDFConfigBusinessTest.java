@@ -48,7 +48,7 @@ public class TaskCreatePDFConfigBusinessTest extends LuteceTestCase
         super.setUp( );
         _taskCreatePDFConfigService = SpringContextService.getBean( FormsPDFConstants.BEAN_CREATE_PDF_CONFIG_SERVICE );
     }
-    
+
     public void testCRUD( )
     {
         TaskCreatePDFConfig config = new TaskCreatePDFConfig( );

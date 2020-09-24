@@ -83,7 +83,7 @@ public class DoDownloadPDF extends HttpServlet
         int nIdConfig;
         int nIdFormResponse;
         String strIdConfig;
-        try 
+        try
         {
             TaskCreatePDFConfig taskCreatePDFConfig = taskCreatePDFConfigService
                     .findByPrimaryKey( Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_TASK ) ) );
@@ -91,12 +91,12 @@ public class DoDownloadPDF extends HttpServlet
             nIdFormResponse = Integer.parseInt( request.getParameter( FormsPDFConstants.PARAMETER_ID_FORM_RESPONSE ) );
             nIdConfig = Integer.parseInt( strIdConfig );
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
             AppLogService.error( "Error parsing request parameter", e );
             return;
         }
-        
+
         if ( !RequestAuthenticatorService.getRequestAuthenticatorForUrl( ).isRequestAuthenticated( request ) || StringUtils.isBlank( strIdConfig ) )
         {
             return;
@@ -132,11 +132,11 @@ public class DoDownloadPDF extends HttpServlet
                 config = new DefaultConfigProducer( );
             }
 
-            PDFUtils.doDownloadPDF( request, response, plugin, config,
-                    manageConfigProducerService.loadListConfigQuestion( plugin, nIdConfig ), request.getLocale( ), nIdFormResponse );
+            PDFUtils.doDownloadPDF( request, response, plugin, config, manageConfigProducerService.loadListConfigQuestion( plugin, nIdConfig ),
+                    request.getLocale( ), nIdFormResponse );
         }
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      * 
