@@ -3,7 +3,7 @@
     <name>workflow-formspdf</name>
     <class>fr.paris.lutece.plugins.workflow.modules.formspdf.service.FormsPDFPlugin
     </class>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <documentation/>
     <installation/>
     <changes/>
