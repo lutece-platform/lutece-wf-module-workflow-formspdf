@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>module-workflow-formspdf</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <name>Workflow Forms PDF module</name>
 
     <repositories>
@@ -82,7 +82,7 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-wf-module-workflow-formspdf.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-wf-module-workflow-formspdf.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-wf-module-workflow-formspdf.git</url>
-        <tag>HEAD</tag>
+        <tag>module-workflow-formspdf-1.0.3</tag>
     </scm>
 
 </project>
