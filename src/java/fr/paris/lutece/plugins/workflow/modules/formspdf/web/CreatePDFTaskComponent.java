@@ -137,15 +137,6 @@ public class CreatePDFTaskComponent extends NoFormTaskComponent
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getTaskInformationXml( int nIdHistory, HttpServletRequest request, Locale locale, ITask task )
-    {
-        return null;
-    }
-
-    /**
      * Method to get forms entries list
      * 
      * @param nIdForms
