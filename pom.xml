@@ -68,7 +68,7 @@
 
     <properties>
         <componentName>workflow-formspdf</componentName>
-        <jiraProjectName>WORKFLOWFORMSPDF</jiraProjectName>
+        <jiraProjectName>MWFPDF</jiraProjectName>
         <jiraComponentId>10589</jiraComponentId>
     </properties>
 
