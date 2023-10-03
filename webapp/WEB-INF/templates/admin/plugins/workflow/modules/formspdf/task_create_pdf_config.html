@@ -6,33 +6,23 @@
 	<#assign idQuestionUrlPDF = task_config.idQuestionUrlPDF>
 	<#assign idConfig = task_config.idConfig>
 </#if>
-<p class="lead">#i18n{module.workflow.formspdf.task_create_pdf_config.title}</p>
-<div class="form-group">
-	<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="idForms">#i18n{module.workflow.formspdf.task_create_pdf_config.label.forms} *</label>
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-		<div class="input-group">
-			<@comboWithParams name="idForm" default_value=idForm?string additionalParameters="class=\"form-control input-sm\"" items=list_forms />
-			<span class="input-group-btn">
-				<button type="submit" value="apply" name="apply" class="btn btn-primary btn-sm btn-flat">
-					<i class="glyphicon glyphicon-ok-circle"></i>&nbsp;Appliquer
-				</button>
-			</span>
-		</div>
-	</div>
-</div>
-<#if list_question_url?exists && list_question_url?has_content >
-<div class="form-group">
-	<label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3"  for="idEntryUrlPDF">#i18n{module.workflow.formspdf.task_create_pdf_config.label.id_question_url} *</label>
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-		<@comboWithParams name="idQuestionUrlPDF" default_value=idQuestionUrlPDF?string additionalParameters="class=\"form-control input-sm\"" items=list_question_url />
-	</div>
-</div>
-</#if>
-<#if list_config_pdf?exists && list_config_pdf?has_content>
-<div class="form-group">
-    <label class="control-label col-xs-12 col-sm-12 col-md-3 col-lg-3" for="idConfig">#i18n{module.workflow.formspdf.task_create_pdf_config.label.id_pdf_config} *</label>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <@comboWithParams name="idConfig" items=list_config_pdf default_value=idConfig?string additionalParameters="class=\"form-control input-sm\"" />&nbsp;
-        </div>
-</div>
-</#if>
+<@fieldSet legend='#i18n{module.workflow.formspdf.task_create_pdf_config.title}'>
+	<@formGroup labelFor='idForms' labelKey='#i18n{module.workflow.formspdf.task_create_pdf_config.label.forms}' mandatory=true>
+		<@inputGroup>
+			<@select name='idForm' default_value=idForm?string items=list_forms />
+			<@inputGroupItem type='btn'>
+				<@button type='submit' name='apply' buttonIcon='check' title='Appliquer' hideTitle=['all'] />
+			</@inputGroupItem>
+		</@inputGroup>
+	</@formGroup>
+	<#if list_question_url?exists && list_question_url?has_content >
+	<@formGroup labelFor='idEntryUrlPDF' labelKey='#i18n{module.workflow.formspdf.task_create_pdf_config.label.id_question_url}' mandatory=true>
+		<@select name='idQuestionUrlPDF' default_value=idQuestionUrlPDF?string items=list_question_url />
+	</@formGroup>
+	</#if>
+	<#if list_config_pdf?exists && list_config_pdf?has_content>
+	<@formGroup labelFor='idConfig' labelKey='#i18n{module.workflow.formspdf.task_create_pdf_config.label.id_pdf_config}' mandatory=true>
+		<@select name='idConfig' items=list_config_pdf default_value=idConfig?string />
+	</@formGroup>
+	</#if>
+</@fieldSet>
